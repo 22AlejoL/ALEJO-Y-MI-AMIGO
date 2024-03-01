@@ -32,7 +32,7 @@ void push_back (T& elem) {
   if (empty()) {
     first_ = n;
   }else{
-    last_
+    last_->setNext(n);
   }
   last_ = n;
   size++;
@@ -44,9 +44,13 @@ void push_front (T& elem) {
     first_ = n;
     last_ =n;
     size++;
-  }
+  }else {
   //El siguiente de n debe apuntar a lo que apunta firts
-  //fisrt deberia apuntar a n
+  n->setNext(first_);
+    //fisrt deberia apuntar a n
+    first_ = n;
   //incrementar size
+    size++;
+  }
 }
 }
