@@ -11,25 +11,26 @@
 // Espacio de nombres
 using namespace std;
 
+template<typename T>
 class Matriz {
 private:
     int numFilas;
     int numColumnas;
-    vector<vector<double>> datos;
+    vector<vector<T>> datos;
 
 public:
     // constructor
     Matriz(int filas, int columnas) {
         numFilas = filas;
         numColumnas = columnas;
-        datos.resize(filas, vector<double>(columnas + 1, 0)); // +1 para la columna de resultados
+        datos.resize(filas, vector<T>(columnas + 1, 0)); // +1 para la columna de resultados
         cout << VERDE "Matriz creada" RESET << endl;
     }
 
     // inicializar la matriz
     void inicializar() {
-        double valor;
-        cout << YELLOW "Ingrese los elementos de la matriz fila por fila:"  RESET << endl;
+        T valor;
+        cout << YELLOW "Ingrese los elementos de la matriz fila por fila:" RESET << endl;
         for (int i = 0; i < numFilas; i++) {
             for (int j = 0; j < numColumnas; j++) {
                 cout << "Elemento [" << i << "][" << j << "]: ";
@@ -77,7 +78,7 @@ public:
             datos[i].swap(datos[r]);
 
             // Normalizar fila r
-            double divisor = datos[r][lider];
+            T divisor = datos[r][lider];
             for (int j = 0; j <= numColumnas; j++) {
                 datos[r][j] /= divisor;
             }
@@ -88,7 +89,7 @@ public:
 
             for (int i = 0; i < numFilas; i++) {
                 if (i != r) {
-                    double resta = datos[i][lider];
+                    T resta = datos[i][lider];
                     for (int j = 0; j <= numColumnas; j++) {
                         datos[i][j] -= (resta * datos[r][j]);
                     }
