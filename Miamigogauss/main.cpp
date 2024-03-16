@@ -17,10 +17,10 @@ int main() {
     cout << CYAN "Ingrese el número de columnas de la matriz: " RESET;
     cin >> columnas;
 
-    Matriz m(filas, columnas);
+    Matriz<double> m(filas, columnas); // Puedes cambiar double por otro tipo de dato si lo necesitas
     m.inicializar();
 
-    cout << VERDE "La matriz ingresada es:" RESET << endl;
+    cout << VERDE "La matriz ingresada es:" RESET<< endl;
     m.imprimir();
     cout << endl;
 
