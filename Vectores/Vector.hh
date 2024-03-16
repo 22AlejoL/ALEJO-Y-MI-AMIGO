@@ -1,93 +1,137 @@
-#include <iostream>
+#include<iostream>
+//For vectors
+#include<vector>
 
+//define red
+#define RED "\033[31m"
+#define RESET "\033[0m"
+
+
+//for std
 using namespace std;
+
 
 class Vector
 {
 private:
-    unsigned int capacity;
-    unsigned int size;
-    int* storage;
+  unsigned int size;
+  unsigned int capacity;
+  int *data;
 public:
-    Vector() {
-        capacity = 6;
-        size = 0;
-        storage = new int[capacity]; // Corregido para crear un arreglo de tamaño 'capacity'
-    }
 
-    ~Vector() {
-        delete[] storage; // Liberar la memoria cuando el objeto se destruye
-    }
+  //make the constructor
+  Vector(unsigned int size)
+  {
+    this->capacity = size;
+    this->data = new int[size];//the nwe is for the size of the vector and does not have to be the same as the capacity
+  }
 
-    void push_back(int elem) {
-        if (size == capacity) {
-            cout << "El arreglo esta lleno, hay que redimensionar" << endl;
-            resize();
-        }
-        storage[size] = elem;
-        size++;
+  //print the vector
+  void print()
+  {
+    for (int i = 0; i < size; i++)
+    {
+      cout << data[i] << " ";
     }
+    cout << endl;
+  }
 
-    bool empty() { return size == 0; }
+    //-------------------------------------
+  //Requeriments
+  //Empty
+  bool empty()
+  {
+    return size == 0;
+  }
 
-    void resize() {
-        int* newstorage = new int[capacity * 2];
-        for (unsigned int i = 0; i < size; i++) {
-            newstorage[i] = storage[i];
-        }
-        delete[] storage;
-        storage = newstorage;
-        capacity = capacity * 2;
+  //int size
+  unsigned int sizeWidth()
+  {
+    return size;
+  }
+
+  //pushback function
+  void push_back(int value)
+  {
+    if (size == capacity)
+    {
+      resize();
+      data[size] = value;
+      size++;
     }
-
-    int& front() {
-        if (size == 0) {
-            cout << "Error: Vector vacío. No se puede obtener el primer elemento." << endl; // Otra opción sería lanzar una excepción.
-        }
-        return storage[0];
+    else{
+      data[size] = value;
+      size++;
     }
+  }
 
-    int& back() {
-        if (size == 0) {
-            cout << "Error: Vector vacío. No se puede obtener el último elemento." << endl;
-        }
-        return storage[size - 1];
+  //resize function
+  void resize()
+  {
+    int *temp = new int[capacity * 2];
+    for ( unsigned int i = 0; i < size; i++)
+    {
+      temp[i] = data[i];
     }
+    delete[] data;
+    data = temp;
+    capacity *= 2;
+  }
 
-    int& at(unsigned int p) {
-        if (p >= size) {
-            cout << "Error: Índice fuera de rango." << endl;
-        }
-        return storage[p];
+  //push_front function
+  void push_front(int nuevoValor)
+  {
+    if (size == capacity)
+    {
+      resize();
     }
+    int *temp = new int[capacity];
+    temp[0]=nuevoValor;
+    for ( unsigned int i = 0; i < size; i++)
+    {
+      temp[i+1] = data[i];
+    }
+    size++;
+    delete[] data;
+    data = temp;
+  }
+  //Returns the last term in the vector
+  int& back()
+  {
+    return data[size-1];
+  }
 
-    void pop_back() {
-        if (size == 0) {
-            cout << "Error: No se puede eliminar el último elemento de un vector vacío." << endl;
-        }
-        size--;
-    }
+  //int& front
+  int& front()
+  {
+    return data[0];
+  }
 
-    void pop_front() {
-        if (size == 0) {
-            cout << "Error: No se puede eliminar el primer elemento de un vector vacío." << endl;
-        }
-        for (unsigned int i = 0; i < size - 1; i++) {
-            storage[i] = storage[i + 1];
-        }
-        size--;
-    }
+  //int& position p
+  int& at(unsigned int p)
+  {
+    return data[p];
+  }
 
-    void push_front(int e) {
-        if (size == capacity) {
-            cout << "El arreglo esta lleno, hay que redimensionar" << endl;
-            resize();
-        }
-        for (unsigned int i = size; i > 0; i--) {
-            storage[i] = storage[i - 1];
-        }
-        storage[0] = e;
-        size++;
+  //pop_back function
+  void pop_back()
+  {
+    size--;
+  }
+
+  //pop_front function
+  void pop_front()
+  {
+    int *temp = new int[capacity];
+    for ( unsigned int i = 0; i < size; i++)
+    {
+      temp[i] = data[i+1];
     }
+    delete[] data;
+    data = temp;
+    size--;
+  }
+
 };
+
 
