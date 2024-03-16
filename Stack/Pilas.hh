@@ -1,45 +1,72 @@
+#ifndef _STACK_HH_
+#define _STACK_HH_
+
 #include <iostream>
 #include <vector>
 
 using namespace std;
-template <typename T>
 
-class Pila
-{
-    private: 
-        vector<T> storage;
+template <class T> class Stack {
+  private:
+    vector<T> storage;
+  public:
 
-    public:
-        Pila() : storage() {}
+  /**
+   * @brief  Return if the stack is empty - level of complexity O(1)
+   *
+   * @return true
+   * @return false
+   */
+  bool empty() const {
+    return storage.empty();
+  }
 
-    /*  
-    EVALUAR SI LA PILA ESTÁ VACÍA
+  /**
+   * @brief Return the number of elements in the stack - level of complexity O(1)
+   *
+   * @return int
+   */
+  int size() const {
+    return storage.size();
+  };
 
-    COMPLEJIDAD : O(1) porque storage empty es O(1).
-    */
+  /**
+   * @brief Insert a new element in the stack - level of complexity O(1)
+   *
+   * @return T
+   */
+  void push(const T& value) {
+    storage.push_back(value);
+  };
 
-        bool empty() const {
-            return storage.empty();
-        }
+  /**
+   * @brief Reference to the last element in the stack - level of complexity O(1)
+   *
+   * @return const T&
+   */
+  const T& top() const {
+    return storage.back();
+  };
 
-    /*
-    Retorna el número de elementos en la pila
-    */
+  /**
+   * @brief pop the last element in the stack - level of complexity O(1)
+   *
+   */
+  void pop() {
+    storage.pop_back();
+  };
 
-        unsigned int size() const { return storage.size(); }
-    
-    /*
-    Inserta el elemento en la pila.
-    Complejidad: constante amortoizada.
-    */
+  /**
+   * @brief Print the elements in the stack - level of complexity O(n)
+   *
+   */
+  void printStack() {
+    for(int i = 0; i < storage.size(); i++){
+      cout << storage[i] << " ";
+    }
+    cout << endl;
+  };
 
-        void push(const T &elem) { storage.push_back(elem); }
-        void pop() { storage.pop_back(); }
-        const T &top() const { return storage.back(); }
-        T &top() { return storage.back(); }
-        void print() const {
-            for (const T &1 : storage) {
-                cout << " " << i; 
-            }
-        }
 };
+
+#endif
