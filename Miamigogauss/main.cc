@@ -1,6 +1,6 @@
 #include <iostream>
 #include "vector.hh"
-#include "Gauss.hh"
+#include "gauss.hh"
 
 #define CYAN    "\x1b[36m"
 #define RESET   "\033[0m"
