@@ -32,18 +32,33 @@ public:
     }
 };
 
+// Clase `DFSVisitor` que implementa `GraphVisitor` para el recorrido completo
+class DFSVisitor : public GraphVisitor {
+public:
+    void visit(Node &node) override {
+        cout << node.id << " ";
+    }
+};
+
 // Clase `SearchVisitor` que implementa `GraphVisitor` y busca un nodo específico
 class SearchVisitor : public GraphVisitor {
 public:
     int target;
     bool found;
+    vector<int> path;
 
     SearchVisitor(int target) : target(target), found(false) {}
 
     void visit(Node &node) override {
-        cout << node.id << " ";
+        path.push_back(node.id);
         if (node.id == target) {
             found = true;
+        }
+    }
+
+    void printPath() {
+        for (int id : path) {
+            cout << id << " ";
         }
     }
 };
@@ -69,6 +84,17 @@ public:
         nodes[dest].addNeighbor(src);
     }
 
+    void DFS(Node &node, vector<bool> &discovered, GraphVisitor &visitor) {
+        discovered[node.id] = true;
+        node.accept(visitor);
+
+        for (int neighbor : node.neighbors) {
+            if (!discovered[neighbor]) {
+                DFS(nodes[neighbor], discovered, visitor);
+            }
+        }
+    }
+
     bool DFS(Node &node, vector<bool> &discovered, SearchVisitor &visitor) {
         discovered[node.id] = true;
         node.accept(visitor);
@@ -85,6 +111,16 @@ public:
             }
         }
         return false;
+    }
+
+    void traverse(GraphVisitor &visitor) {
+        vector<bool> discovered(nodes.size(), false);
+
+        for (Node &node : nodes) {
+            if (!discovered[node.id]) {
+                DFS(node, discovered, visitor);
+            }
+        }
     }
 
     void traverse(SearchVisitor &visitor) {
@@ -117,17 +153,26 @@ int main() {
         graph.addEdge(edge.src, edge.dest);
     }
 
+    // Crear un visitante DFS para el recorrido completo
+    DFSVisitor fullVisitor;
+    cout << "El recorrido completo del grafo es: ";
+    graph.traverse(fullVisitor);
+    cout << endl;
+
     // nodo a buscar
-    int target = 12;
-    SearchVisitor visitor(target);
+    int target = 5;
+    SearchVisitor searchVisitor(target);
 
-    // realizar el recorrido DFS usando el visitante
-    graph.traverse(visitor);
+    // realizar el recorrido DFS usando el SearchVisitor
+    cout << "El recorrido hasta encontrar el valor es: ";
+    graph.traverse(searchVisitor);
+    searchVisitor.printPath();
+    cout << endl;
 
-    if (visitor.found) {
-        cout << "\nNode " << target << " found." << endl;
+    if (searchVisitor.found) {
+        cout << "Node " << target << " found." << endl;
     } else {
-        cout << "\nNode " << target << " not found." << endl;
+        cout << "Node " << target << " not found." << endl;
     }
 
     return 0;
